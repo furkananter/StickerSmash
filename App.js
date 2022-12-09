@@ -4,6 +4,7 @@ import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+import CircleButton from './components/CircleButton';
 
 const PlaceholderImage = require('./assets/images/background-image.png');
 
@@ -17,11 +18,11 @@ export default function App() {
       quality: 1,
     })
 
-    if(!result.canceled){
+    if (!result.canceled) {
       setSelectedImage(result.assets[0].uri)
       setShowAppOptions(true)
-    }else{
-      alert("No image selected")  
+    } else {
+      alert("No image selected")
     }
   }
 
@@ -30,10 +31,15 @@ export default function App() {
       <View style={styles.imageContainer}>
         <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
       </View>
-      <View style={styles.footerContainer}>
-        <Button onPress={pickImageAsync} theme="primary" label="Fotoğraf Seç" />
-        <Button label="Bu Fotoğrafı Kullan" onPress={() => setShowAppOptions(true)} />
-      </View>
+      {showAppOptions ? (
+        <CircleButton />
+      ) : (
+        <View style={styles.footerContainer}>
+          <Button onPress={pickImageAsync} theme="primary" label="Fotoğraf Seç" />
+          <Button label="Bu Fotoğrafı Kullan" onPress={() => setShowAppOptions(true)} />
+        </View>
+      )
+      }
       <StatusBar style="auto" />
     </View>
   );
